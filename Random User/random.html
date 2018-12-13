@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Random User</title>
+	<link  rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="../../Bootstrap/css/bootstrap.css">
+	<!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Material+Icons"> -->
+	<script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	
+</head>
+<body onload="submitAll()">
+	<div class="row">
+		<div class="col-12" id="navbar">
+			<ul>
+				<li><div class="col">
+						<i class="fa fa-home"></i><br>
+							<a href="#">Home</a></div></li>
+				<li><div class="col">
+						<i class="fa fa-user"></i><br>
+						<a href="#">User Photos</a></div></li>
+				<li><div class="col">
+						<i class="fa fa-book"></i><br>
+						<a href="#">Documentation</a></div></li>
+				<li><div class="col">
+						<i class="fa fa-edit"></i><br>
+						<a href="#">Change Log</a></div></li>
+				<li><div class="col">
+						<i class="fa fa-chart-line"></i><br>
+						<a href="#">Stats & Graphs</a></div></li>
+				<li><div class="col">
+						<i class="fa fa-donate"></i><br>
+						<a href="#">Donate</a></div></li>
+				<li><div class="col">
+						<i class="fa fa-copyright"></i><br>
+						<a href="#">Copyright Notice</a></div></li>
+				<li><div class="col">
+					<p style="text-align:center;display: inline-block">
+					<img src="img/photoshop.svg" height="20px" width="20px" style="background-color:white;margin-top: 10px;z-index: 1;"></p>
+						<a href="#" style="display: block;">Photoshop Extension</a></div></li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 gray">
+			<h1>RANDOM USER GENERATOR</h1>
+			<p>A free,
+				<a href="https://github.com/RandomAPI/Randomuser.me-Node"> open-source</a> API for generating random user data. Like Lorem Ipsum, but for people.</p>
+			<p class="w"><i class="fab fa-twitter" style="color:blue"></i>Follow us @randomapi</p>
+		</div>
+	</div>
+	<div class="card">
+			<div class="card-body" id="main">
+					
+			</div>
+			<div class="card-body size">
+				<ul>
+					<li><div class="col get" onmouseover="name()" id="1"><i class="fa fa-user"></i></div></li>
+					<li><div class="col get" onmouseover="email()" id="2"><i class="fa fa-envelope"></i></div></li>
+					<li><div class="col get" onmouseover="bday()" id="3"><i class="fa fa-calendar-alt"></i></div></li>
+					<li><div class="col get" onmouseover="address()" id="4"><i class="fa fa-map-marker-alt"></i></div></li>
+					<li><div class="col get" onmouseover="phone()" id="5"><i class="fa fa-phone"></i></div></li>
+					<li><div class="col get" onmouseover="password()" id="6"><i class="fa fa-lock"></i></div></li>
+				</ul>
+			</div>
+		
+	</div>
+</body>
+<script type="text/javascript">
+			var m;
+			var a=document.getElementById("main");
+		   var mainDiv=document.createElement("div");
+		   var img=document.createElement("img");
+		   var s=document.createElement("hr");
+		   var first=document.createElement("p");
+		   s.className="hr";
+		   first.className="fir";
+	function submitAll()
+		{	
+		   
+		     var xmlhttp = new XMLHttpRequest();
+			 xmlhttp.onreadystatechange = function() {
+		     if (this.readyState == 4 && this.status == 200){ 
+		       // console.log("ha");
+		       m=JSON.parse(this.responseText);
+		       		console.log(m["results"][0].picture["large"]);
+					   img.src=m["results"][0].picture["large"];
+					   
+					   first.innerHTML="Hi, My name is <br><h4> "+m["results"][0].name.first+" "+m["results"][0].name.last+"</h4>";
+						mainDiv.appendChild(img);
+						mainDiv.appendChild(s);
+					   mainDiv.appendChild(first);
+					   console.log(m["results"][0].email);
+					   a.appendChild(mainDiv);
+			}       
+		};
+		xmlhttp.open("GET", "https://randomuser.me/api", true);
+		xmlhttp.send();
+	}
+	function name()
+	{
+		// document.getElementById("1").style.color="green";
+		first.innerHTML="Hi, My name is <br><h4> "+m["results"][0].name.first+" "+m["results"][0].name.last+"</h4>";
+	}
+	function email()
+	{
+		// document.getElementById("2").style.color="green";
+		first.innerHTML="My email address is <br><h4>"+m["results"][0].email+"</h4>";
+	}
+	function bday()
+	{
+		// document.getElementById("3").style.color="green";
+		var date=new Date(m["results"][0].dob.date).getDate();
+		var month=new Date(m["results"][0].dob.date).getMonth();
+		var year=new Date(m["results"][0].dob.date).getFullYear();
+		var dob=date+"-"+month+"-"+year;
+		first.innerHTML="My birthday is <br><h4>"+dob+"</h4>";
+	}
+	function address()
+	{
+		// document.getElementById("4").style.color="green";
+		first.innerHTML="My address is <br><h4>"+m["results"][0].location.street+" "+m["results"][0].location.city+"</h4>";
+	}
+	function phone()
+	{
+		// document.getElementById("5").style.color="green";
+		first.innerHTML="My Phone No. is <br><h4>"+m["results"][0].phone+"</h4>";
+	}
+	function password()
+	{
+		// document.getElementById("6").style.color="green";
+		first.innerHTML="My password is <br><h4>"+m["results"][0].login.password+"</h4>";
+	}
+</script>
+</html>
